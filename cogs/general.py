@@ -1,9 +1,11 @@
 import discord
 from discord.ext import commands
 import random
-import os
-import re
 import pandas as pd
+import source.hangman_questions as hm
+
+#notes to develop - when important custom created files, note that the current directory is project_disbot's ROOT directory
+#if your file is located in the same directory as here please use cogs.{my-file}
 
 class General(commands.Cog):
 
@@ -63,7 +65,56 @@ class General(commands.Cog):
         data.to_csv(file_location)
         
         await message.channel.send("Data saved. Consult your administrator for data file.")
+    
+    @commands.command()
+    async def han(self, ctx, *, difficulty="easy"):
+
+        #init variable qna
+        qna=""
+
+        #set words based off difficulty
+        if difficulty =="easy":
+            qna = hm.easy()
+        elif difficulty =="normal":
+            qna = hm.normal()
+        elif difficulty =="hard":
+            qna = hm.hard()
+
+        #generate hangman word
+        key = random.choice(list(qna.values()))
+
+        # #generate mystery letters
+        temp = ""
+        for i in range(0, len(key)):
+             temp += "?"
+        await ctx.send("Hangman Initiated. The word is: "+ temp)
+
+        #guess recieved from user
+        guess = await self.client.wait_for('message')
+
+        #add guesses to a list
+        user_guesses = list()
+
+        for c in key.lower():
+            if guess == c or c in user_guesses:
+                temp += c
+            else:
+                temp += "?"
+        user_guesses.append(guess.content.lower())
+
+        #check if word has been answered, else show game progress
+        if guess.content.lower() == key:
+            await ctx.send("You guessed correctly, good job! The word was: " + key)
+        else:
+            await ctx.send("Progress: {0}".format(temp))
+            guesses_str = ",".join(user_guesses)
+            await ctx.send("Guess so far: {0}".format(guesses_str))
         
+        if len(user_guesses) >= len(key):
+            await ctx.send("Game over. The word was: {0}".format(key))
+            return
+
+
 def setup(client):
     client.add_cog(General(client))
 
