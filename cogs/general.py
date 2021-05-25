@@ -39,6 +39,15 @@ class General(commands.Cog):
         embed.add_field(name="Join date:", value=member.joined_at.strftime("%a, %d %B %Y, %I:%M %p UTC"))
         embed.add_field(name=f"Allocated roles: ({len(roles)})", value="".join([role.mention for role in roles]))
         await ctx.send(embed=embed)
+    
+    @commands.command(aliases=['server_profile'])
+    async def serverinfo(self, ctx):
+
+        embed = discord.Embed(title="Instatute Server Statistics")
+        embed.add_field(name="Region:", value=ctx.guild.region, inline=False)
+        embed.add_field(name="Number of members:", value=ctx.guild.member_count, inline=False)
+        embed.add_field(name="Server created:", value=ctx.guild.created_at.strftime("%a, %d %B %Y, %I:%M %p UTC"), inline=False)
+        await ctx.send(embed=embed)
 		
     @commands.command()
     async def get_history(self, message):
