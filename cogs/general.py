@@ -24,7 +24,7 @@ class General(commands.Cog):
         await ctx.send(f'Pong! {round(self.client.latency * 1000)}ms')
 		
     @commands.command()
-    async def get_history(self, ctx):
+    async def get_history(self, message):
         #empty dataframe
         data = pd.DataFrame(columns=['msg_id', 'content', 'time',
                                     'author', 'channel'])
@@ -44,6 +44,8 @@ class General(commands.Cog):
         #declare file location + save as csv for analytics
         file_location= "data.csv"
         data.to_csv(file_location)
+        
+        await message.channel.send("Data saved. Consult your administrator for data file.")
 
 
 def setup(client):
