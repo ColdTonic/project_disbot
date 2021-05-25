@@ -32,6 +32,12 @@ class filter(commands.Cog):
             if a=="censored line":
                 await message.delete()
                 await message.channel.send (" *Inappropriate words or phrase are not allowed.* ")
+
+    @commands.command()
+    async def tex(self, ctx, amount):
+        await ctx.channel.purge(limit=amount)
+        await ctx.send(f' *lines of mesaages has been deleted *')
+
         
 
 def setup(client):
