@@ -63,7 +63,16 @@ class General(commands.Cog):
         data.to_csv(file_location)
         
         await message.channel.send("Data saved. Consult your administrator for data file.")
-        
+
+    @commands.command(aliases=['changecolour'])
+    @commands.has_permissions(manage_roles=True)
+    async def changecolor(self, ctx, role: discord.Role):
+        try:
+            await role.edit(color=discord.Color(random.randint(0x000000, 0xFFFFFF)))
+            await ctx.send("Colour has been changed. Check role to see new colour")
+        except Exception as error:
+            raise(error)
+
 def setup(client):
     client.add_cog(General(client))
 
