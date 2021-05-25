@@ -63,7 +63,7 @@ class General(commands.Cog):
         data.to_csv(file_location)
         
         await message.channel.send("Data saved. Consult your administrator for data file.")
-
+        
 def setup(client):
     client.add_cog(General(client))
 
