@@ -4,6 +4,14 @@ This project contains the contents of project_disbot. </br>
 Instatute is a tutoring organisation providing students one-on-one and group tutoring lessons to assist them in preparing for special entry university exams for both Australian
 and international institutions. Project_Disbot is a Discord Bot used to assist in uplifting user experience on the Instatute Discord Server and provides various commands derived from the Discord.py library.
 
+## Functions
+The bot is able to do the following:
+ - Filter for inappropriate words
+ - Find commonly used phrases
+ - Provide administrative commands like kick, ban, clear messages, mute members, etc.
+ - Has fun games like coinflips
+ - Display user and server profiles
+
 ## Instructions for download and running locally:
 
 ### 1. Create a Discord Bot Account (Discord Developer Portal)
@@ -41,3 +49,6 @@ Project Disbot#2087 is connected to the following guilds:
 Instatute(id: ################)
 ```
 
+
+
+Notice: This repository is merely used for the sake of educational purposes and is not intended to be used for authorisation/official deployment.
