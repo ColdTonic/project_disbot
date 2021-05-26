@@ -3,6 +3,7 @@ import pandas as pd
 import asyncio
 import re
 import datetime
+import random
 from discord.ext import tasks, commands
 
 
@@ -112,7 +113,42 @@ class admin(commands.Cog):
         df = pd.read_csv("cogs/data.csv")
         df = df[df["author"] != 'Project Disbot']
         await ctx.channel.send(df['content'].str.split().explode().value_counts()[:10])
-    
+
+    @commands.command()
+    async def get_history(self, message):
+        #empty dataframe
+        data = pd.DataFrame(columns=['msg_id', 'content', 'time',
+                                    'author', 'channel'])
+
+        #grab list of channel history in #feedback
+        messages = await self.client.get_channel(845906253326188574).history(limit=200).flatten()
+
+        #loop through each message and save to empty dataframe
+        for msg in messages:
+            data = data.append({'msg_id': msg.id,
+                                    'content': msg.content,
+									'time': msg.created_at,
+									'author': msg.author.name,
+                                    'channel': msg.channel
+                                    }, ignore_index=True)
+        
+        #declare file location + save as csv for analytics
+        file_location= "data.csv"
+        data.to_csv(file_location)
+        
+        await message.channel.send("Data saved. Consult your administrator for data file.")
+
+    #Change colour, alias added for localisation spelling
+    #Checks permissions manage_roles = True
+    @commands.command(aliases=['changecolour'])
+    @commands.has_permissions(manage_roles=True)
+    async def changecolor(self, ctx, role: discord.Role):
+        # Try change colour, notify user that colour has been changed.
+        try:
+            await role.edit(color=discord.Color(random.randint(0x000000, 0xFFFFFF)))
+            await ctx.send("Colour has been changed. Check role to see new colour")
+        except Exception as error:
+            raise(error)
 
 def setup(client):
     client.add_cog(admin(client))
