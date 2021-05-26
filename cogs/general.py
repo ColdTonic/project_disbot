@@ -48,11 +48,13 @@ class General(commands.Cog):
     @commands.command(aliases=['server_profile'])
     async def serverinfo(self, ctx):
 
+        f = discord.File("src/server_profile.jpg", filename="server_profile.jpg")
         embed = discord.Embed(title="Instatute Server Statistics")
+        embed.set_thumbnail(url="attachment://server_profile.jpg")
         embed.add_field(name="Region:", value=ctx.guild.region, inline=False)
         embed.add_field(name="Number of members:", value=ctx.guild.member_count, inline=False)
         embed.add_field(name="Server created:", value=ctx.guild.created_at.strftime("%a, %d %B %Y, %I:%M %p UTC"), inline=False)
-        await ctx.send(embed=embed)
+        await ctx.send(embed=embed, file=f)
 
 #Add cog of generic functions
 def setup(client):
