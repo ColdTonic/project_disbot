@@ -26,17 +26,17 @@ async def on_ready():
         )
 
 #Load all cogs in /cogs
-@client.command()
+@client.command(hidden=True)
 async def load(ctx, extension):
     client.load_extension(f'cogs.{extension}')
 
 #Unload cogs for error testing
-@client.command()
+@client.command(hidden=True)
 async def unload(ctx, extension):
     client.unload_extension(f'cogs.{extension}')
 
 #Reload all cog files
-@client.command()
+@client.command(hidden=True)
 async def reload(ctx, extension):
     client.unload_extension(f'cogs.{extension}')
     client.load_extension(f'cogs.{extension}')
