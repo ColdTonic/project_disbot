@@ -1,9 +1,6 @@
 import discord
 from discord.ext import commands
 import random
-import os
-import re
-import pandas as pd
 
 class General(commands.Cog):
 
@@ -20,13 +17,13 @@ class General(commands.Cog):
 
     #Commands
     #Pings user and checks client latency to the server. Used for Bot-end testing.
-    @commands.command()
+    @commands.command(help = 'Basic command for testing purposes. Displays bot ping. Cmd: !ping')
     async def ping(self, ctx):
         await ctx.send(f'Pong! {round(self.client.latency * 1000)}ms')
     
     #Display user profile using embeds - no additional user permissions required
     #other variations that this command can be called are user or avatar
-    @commands.command(aliases=['avatar', 'user'])
+    @commands.command(help = 'Display user profiles. Cmd: !userinfo <@Discord username>', aliases=['avatar', 'user'])
     async def userinfo(self, ctx, member: discord.Member = None):
         roles = [role for role in ctx.author.roles[1:]]
                 
@@ -45,7 +42,7 @@ class General(commands.Cog):
     
     #Display server profile via embeds.
     #other variations that said command can be called is server_profile
-    @commands.command(aliases=['server_profile'])
+    @commands.command(help = 'Display server profile. Cmd: !serverinfo ',aliases=['server_profile'])
     async def serverinfo(self, ctx):
 
         f = discord.File("src/server_profile.jpg", filename="server_profile.jpg")
@@ -55,6 +52,19 @@ class General(commands.Cog):
         embed.add_field(name="Number of members:", value=ctx.guild.member_count, inline=False)
         embed.add_field(name="Server created:", value=ctx.guild.created_at.strftime("%a, %d %B %Y, %I:%M %p UTC"), inline=False)
         await ctx.send(embed=embed, file=f)
+
+    #Command for pure entertainment purposes, flips a coin and guesses heads or tails
+    @commands.command(help='Flip a coin and guess correctly. Cmd: !coinflip heads')
+    async def coinflip(self, ctx, *, guess):
+        result = random.choice(['heads', 'tails'])
+        guess = guess.lower()
+        if result == guess:
+            await ctx.send("You guessed correctly! The answer was: " + result)
+        elif result == None:
+            await ctx.send("I didn't get a choice, please try again.")
+        elif result != guess:
+            await ctx.send("Incorrect. Try again next time. Result was: " + result)
+        
 
 #Add cog of generic functions
 def setup(client):
