@@ -1,6 +1,6 @@
 # project_disbot
 
-This project contains the contents of project_disbot.
+This project contains the contents of project_disbot. </br>
 Instatute is a tutoring organisation providing students one-on-one and group tutoring lessons to assist them in preparing for special entry university exams for both Australian
 and international institutions. Project_Disbot is a Discord Bot used to assist in uplifting user experience on the Instatute Discord Server and provides various commands derived from the Discord.py library.
 
