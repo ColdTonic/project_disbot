@@ -16,7 +16,7 @@ class admin(commands.Cog):
 
         content_list=[]
         new=[]
-        f = open("cogs/BadWords.txt", "r")
+        f = open("src/BadWords.txt", "r")
         for line in f:
             content_list = line.split(",")
 
