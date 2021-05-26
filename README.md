@@ -11,6 +11,7 @@ The bot is able to do the following:
  - Provide administrative commands like kick, ban, clear messages, mute members, etc.
  - Has fun games like coinflips
  - Display user and server profiles
+More information can be found when running !help when Project Disbot is running live.
 
 ## Instructions for download and running locally:
 
