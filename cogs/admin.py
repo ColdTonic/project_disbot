@@ -110,18 +110,20 @@ class admin(commands.Cog):
     @commands.command()
     async def countword(self,ctx):
 
-        df = pd.read_csv("cogs/data.csv")
+        df = pd.read_csv("src/data.csv")
         df = df[df["author"] != 'Project Disbot']
         await ctx.channel.send(df['content'].str.split().explode().value_counts()[:10])
 
+    #Grab server history where number of entries + ChannelID are configurable parameters
+    #Takes feedback from only the feedback channel for the time being
     @commands.command()
-    async def get_history(self, message):
+    async def get_history(self, message, *, lim=200):
         #empty dataframe
         data = pd.DataFrame(columns=['msg_id', 'content', 'time',
                                     'author', 'channel'])
 
         #grab list of channel history in #feedback
-        messages = await self.client.get_channel(845906253326188574).history(limit=200).flatten()
+        messages = await self.client.get_channel(845906253326188574).history(limit=lim).flatten()
 
         #loop through each message and save to empty dataframe
         for msg in messages:
@@ -133,7 +135,7 @@ class admin(commands.Cog):
                                     }, ignore_index=True)
         
         #declare file location + save as csv for analytics
-        file_location= "data.csv"
+        file_location= "src/data.csv"
         data.to_csv(file_location)
         
         await message.channel.send("Data saved. Consult your administrator for data file.")
