@@ -17,7 +17,7 @@ class General(commands.Cog):
 
     #Commands
     #Pings user and checks client latency to the server. Used for Bot-end testing.
-    @commands.command(help = 'Basic command for testing purposes. Displays bot ping. Cmd: !ping')
+    @commands.command(help = 'Check bot latency. Cmd: !ping')
     async def ping(self, ctx):
         await ctx.send(f'Pong! {round(self.client.latency * 1000)}ms')
     
