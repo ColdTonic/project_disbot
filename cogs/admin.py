@@ -4,6 +4,7 @@ import asyncio
 import re
 import datetime
 import random
+from matplotlib import pyplot as plt
 from discord.ext import tasks, commands
 
 class admin(commands.Cog):
@@ -120,6 +121,29 @@ class admin(commands.Cog):
         df = pd.read_csv("src/data.csv")
         df = df[df["author"] != 'Project Disbot']
         await ctx.channel.send(df['content'].str.split().explode().value_counts()[:10])
+
+    #Create visualisation for word count
+    @commands.command(help='[ADMIN/TUTOR ONLY] Visualise feedback. Cmd: !plt_count', aliases=['viscount', 'plot_feedback', 'plt_count', 'visualise'])
+    @commands.has_any_role('Tutor', 'Admin')
+    async def visualisecount(self, ctx):
+
+        #Read data file obtained from !get_history
+        df = pd.read_csv('src/data.csv')
+        
+        #Use pd transformations to filter Disbot commands and plot value counts.
+        df = df[df["author"] != 'Disbot']
+        df['content'].str.split().explode().value_counts()[:10].plot(kind="bar",color="green", figsize=(10,8))
+        plt.title("Word Frequencies")
+        plt.ylabel('Frequency')
+        plt.savefig("src/wordcounter.png")
+
+        #Set discord file location from CDN
+        f = discord.File("src/wordcounter.png", filename="wordcounter.png")
+
+        #Create embed and push embed back to user to visualise results.
+        plot = discord.Embed(title="Count feedback", description=f'Frequently used words.')
+        plot.set_image(url='attachment://src/wordcounter.png')
+        await ctx.send('Word count visualisation', file=f)
 
     #Grab server history where number of entries + ChannelID are configurable parameters
     #Takes feedback from only the feedback channel for the time being
