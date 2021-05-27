@@ -38,30 +38,31 @@ class admin(commands.Cog):
             if a=="censored line":
                 await message.delete()
                 await message.channel.send (" *Inappropriate words or phrase are not allowed.* ")
+                print("{0}'s message has been removed. Contents: {1}".format(message.author, message.content))
 
 #To clear lines of text in channel
-    @commands.command(help='[ADMIN/TUTOR ONLY] Bans user. Cmd: !clear <num_messages>')
+    @commands.command(help='[Tutor+ Role] Bans user. Cmd: !clear <num_messages>')
     @commands.has_any_role('Tutor', 'Admin')
     async def clear(self, ctx, amount=0):
         await ctx.channel.purge(limit=amount)
         await ctx.send(f'{amount} *lines of messages has been deleted.*')
 
 #To kick a member
-    @commands.command(help='[ADMIN/TUTOR ONLY] Kicks user. Cmd: !kick <@User>')
+    @commands.command(help='[Tutor+ Role] Kicks user. Cmd: !kick <@User>')
     @commands.has_any_role('Tutor', 'Admin')
     async def kick(self, ctx, member : discord.Member):
         await member.kick()
         await ctx.send(f'{member.name} *has been kicked from the channel.*')
 
 #To ban a member
-    @commands.command(help='[ADMIN/TUTOR ONLY] Bans user. Cmd: !ban <@User>')
+    @commands.command(help='[Tutor+ Role] Bans user. Cmd: !ban <@User>')
     @commands.has_any_role('Tutor', 'Admin')
     async def ban(self, ctx, member : discord.Member):
         await member.ban()
         await ctx.send(f'{member.name} *has been banned from the channel.*')
 
 #To unban a member
-    @commands.command(help='[ADMIN/TUTOR ONLY] Unbans user. Cmd: !unban <@User>')
+    @commands.command(help='[Tutor+ Role] Unbans user. Cmd: !unban <@User>')
     @commands.has_any_role('Tutor', 'Admin')
     async def unban(self, ctx, *, member):
         banned_users = await ctx.guild.bans()
@@ -74,7 +75,7 @@ class admin(commands.Cog):
                 await ctx.send(f'{user.name} *has been unbanned from the channel.*') 
 
 #To mute a member for certain time
-    @commands.command(help= '[ADMIN/TUTOR ONLY] Mutes user. Cmd: !mute <@User>')
+    @commands.command(help= '[Tutor+ Role] Mutes user. Cmd: !mute <@User>')
     @commands.has_any_role('Tutor', 'Admin')
     async def mute(self, ctx, member: discord.Member=None, time=0.5):
 
@@ -90,7 +91,7 @@ class admin(commands.Cog):
         await ctx.send(embed=unmute_embed)
 
 #To assign a role to member
-    @commands.command(help = '[ADMIN/TUTOR ONLY] Assigns role to user Cmd: !role <@User> Student')
+    @commands.command(help = '[Tutor+ Role] Assigns role. Cmd: !role <@User> Student')
     @commands.has_any_role('Tutor', 'Admin')
     async def role(self, ctx, member: discord.Member=None,*, role=""):
         guild = ctx.guild
@@ -102,7 +103,7 @@ class admin(commands.Cog):
             await ctx.send(f'**{member.mention} has been assigned to {role} role.**')
 
 #To remove a role from a member
-    @commands.command(help = '[ADMIN/TUTOR ONLY] Removes role. Cmd: !removeRole <@User>')
+    @commands.command(help = '[Tutor+ Role] Removes role. Cmd: !removeRole <@User>')
     @commands.has_any_role('Tutor', 'Admin')
     async def removeRole(self, ctx, member: discord.Member=None, role=""):
         guild = ctx.guild
@@ -114,7 +115,7 @@ class admin(commands.Cog):
             await ctx.send(f'**{member.mention} has been removed from {role} role.**')
 
 #To count most used word
-    @commands.command(help = '[ADMIN/TUTOR ONLY] Requires !get_history. Cmd: !countword')
+    @commands.command(help = '[Tutor+ Role] Requires !get_history. Cmd: !countword')
     @commands.has_any_role('Tutor', 'Admin')
     async def countword(self,ctx):
 
@@ -123,7 +124,7 @@ class admin(commands.Cog):
         await ctx.channel.send(df['content'].str.split().explode().value_counts()[:10])
 
     #Create visualisation for word count
-    @commands.command(help='[ADMIN/TUTOR ONLY] Visualise feedback. Cmd: !plt_count', aliases=['viscount', 'plot_feedback', 'plt_count', 'visualise'])
+    @commands.command(help='[Tutor+ Role] Visualise feedback. Cmd: !plt_count', aliases=['viscount', 'plot_feedback', 'plt_count', 'visualise'])
     @commands.has_any_role('Tutor', 'Admin')
     async def visualisecount(self, ctx):
 
@@ -147,7 +148,7 @@ class admin(commands.Cog):
 
     #Grab server history where number of entries + ChannelID are configurable parameters
     #Takes feedback from only the feedback channel for the time being
-    @commands.command(help = '[ADMIN/TUTOR ONLY] Extracts feedback logs Cmd: !get_history')
+    @commands.command(help = '[Tutor+ Role] Extracts feedback logs Cmd: !get_history')
     @commands.has_any_role('Tutor', 'Admin')
     async def get_history(self, message, *, lim=200):
         #empty dataframe
@@ -174,7 +175,7 @@ class admin(commands.Cog):
 
     #Change colour, alias added for localisation spelling
     #Checks permissions manage_roles = True
-    @commands.command(help = '[ADMIN/TUTOR ONLY] Gives random colour. Cmd: !changecolour <@Role>', aliases=['changecolour'])
+    @commands.command(help = '[Tutor+ Role] Gives random colour. Cmd: !changecolour <@Role>', aliases=['changecolour'])
     @commands.has_any_role('Tutor', 'Admin')
     async def changecolor(self, ctx, role: discord.Role):
         # Try change colour, notify user that colour has been changed.
