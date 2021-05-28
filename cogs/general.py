@@ -64,7 +64,27 @@ class General(commands.Cog):
             await ctx.send("I didn't get a choice, please try again.")
         elif result != guess:
             await ctx.send("Incorrect. Try again next time. Result was: " + result)
-        
+
+    #generate inspirational quotes
+    @commands.command(help='Display random inspirational quotes. Cmd: !quotes')
+    async def quotes(self,ctx):
+        images=[
+            'https://smedia2.intoday.in/indiatoday/images/stories/2016May/albert-einstein_053016040636.jpg',
+            'https://www.azquotes.com/picture-quotes/quote-the-aim-of-education-is-the-knowledge-not-of-facts-but-of-values-william-ralph-inge-4-23-76.jpg',
+            'https://i.pinimg.com/originals/8d/65/8b/8d658b78916b12b60580e7b9d21757a0.jpg',
+            'https://smallbiztrends.com/ezoimgfmt/media.smallbiztrends.com/2019/07/yoda-star-wars-hard-work-quote-850x446.png?ezimgfmt=ng%3Awebp%2Fngcb12%2Frs%3Adevice%2Frscb12-1',
+            'https://www.positivityblog.com/wp-content/uploads/work_quotes_1.webp',
+            'https://www.positivityblog.com/wp-content/uploads/work_quotes_b1.webp',
+            'https://www.positivityblog.com/wp-content/uploads/work_quotes_4.webp',
+            'https://1.bp.blogspot.com/-PSvklELGSfE/XrpEEXySAII/AAAAAAAAsPo/5NDVI2Zt7VAlOLUu_IVqu6RNP7VPQgMygCLcBGAsYHQ/s1600/Inspirational-education-quotes-that-will-motivate-you%2B%25281%2529-min.jpg'
+    
+        ]
+        #display random image in an embed
+        embed=discord.Embed(color=discord.Colour.red())
+        random_link=random.choice(images)
+        embed.set_image(url=random_link)
+        await ctx.send(embed=embed)
+
 
 #Add cog of generic functions
 def setup(client):
